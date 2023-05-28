@@ -1,0 +1,69 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll   long long
+#define pb   push_back
+#define yes   cout<<"YES"<<endl
+#define no   cout<<"NO"<<endl
+#define all(x) (x).begin(), (x).end()
+#define    gcd(a,b)      __gcd(a,b)
+#define    lcm(a,b)  (a*b)/__gcd(a,b)
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+const ll mx=2e4+123; 
+bool vis[mx];
+vector<ll>adj[mx];
+bool isNode[mx];
+ll cnt,cnt1; 
+void dfs( ll u, ll col )
+{
+    vis[u]=1; 
+    if(col==1)cnt1++; 
+    cnt++; 
+    ll temp; 
+    if(col==1)temp=2; 
+    else temp=1; 
+    for(auto v: adj[u])
+    {
+        if(!vis[v])dfs(v, temp);
+    }
+}
+
+
+
+int main()
+{
+    optimize();
+    ll t;
+   cin>>t; 
+   for(ll tc=1; tc<=t; tc++)
+   {
+
+    for(ll i=0; i<mx; i++)
+    {
+        adj[i].clear();
+        isNode[i]=0; 
+        vis[i]=0; 
+    }
+    ll m; 
+    cin>>m; 
+    for(ll i=0; i<m ; i++)
+    {
+        ll u,v; 
+        cin>>u>>v; 
+        adj[u].pb(v);
+        adj[v].pb(u);
+        isNode[u]=1; 
+        isNode[v]=1; 
+    }
+    ll ans=0; 
+    for(ll i=1; i<mx; i++)
+    {
+        if(isNode[i] && !vis[i])
+        {
+            cnt=0,cnt1=0; 
+            dfs(i,1);
+            ans+=max(cnt1, cnt-cnt1);
+        }
+    }
+    cout<<"Case "<<tc<<": "<<ans<<endl;
+   }
+}
