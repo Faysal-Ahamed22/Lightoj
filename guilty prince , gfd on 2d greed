@@ -1,0 +1,83 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll   long long
+#define pb   push_back
+#define yes   cout<<"YES"<<endl
+#define no   cout<<"NO"<<endl
+#define all(x) (x).begin(), (x).end()
+#define    gcd(a,b)      __gcd(a,b)
+#define    lcm(a,b)  (a*b)/__gcd(a,b)
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+bool vis[25][25];
+char s[25][25];
+
+ll m,n; 
+const ll dx[4] = {1, -1, 0, 0};
+const ll dy[4] = {0, 0, 1, -1};
+ll ret=1; 
+bool valid(int x,int y)
+{
+    if(x>=0 && x<m && y>=0 && y<n && s[x][y]!='#' && !vis[x][y]) return true;
+    return false;
+}
+
+ll dfs(ll x, ll y)
+{
+    ret++; 
+   vis[x][y]=1; 
+
+    for(ll i=0; i<4; i++)
+    {
+        ll nx=x+dx[i];
+        ll ny=y+dy[i];
+     if(valid(nx,ny))
+     {
+          dfs(nx, ny);
+     }
+           }
+    return ret; 
+}
+
+
+
+int main()
+{
+    optimize();
+    ll t;
+    cin>>t;
+    for(ll tc=1; tc<=t; tc++)
+    {
+        for(ll i=0; i<21; i++)
+        {
+            for(ll j=0; j<21; j++)vis[i][j]=0; 
+        }
+        ret=1; 
+        cin>>n>>m ; 
+        
+
+        for(ll i=0 ; i<m; i++)
+        {
+            for(ll j=0; j<n; j++)
+            {
+                cin>>s[i][j];
+            }
+        }
+        ll ans; 
+
+         for(ll i=0 ; i<m; i++)
+        {
+            for(ll j=0; j<n ; j++)
+            {
+               if(s[i][j]=='@')
+               {
+                    ans=dfs(i,j);
+               }
+            }
+        }
+        cout<<"Case "<<tc<<": "<<ans-1<<endl;
+
+
+
+    }
+}
+/*****************  ALHAMDULILLAH  *****************/
