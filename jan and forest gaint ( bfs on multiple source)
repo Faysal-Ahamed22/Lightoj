@@ -1,0 +1,133 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll   long long
+#define pb   push_back
+#define yes   cout<<"YES"<<endl
+#define no   cout<<"NO"<<endl
+#define all(x) (x).begin(), (x).end()
+#define    gcd(a,b)      __gcd(a,b)
+#define    lcm(a,b)  (a*b)/__gcd(a,b)
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+const ll mx=212; 
+const ll inf=2000000000;
+char c[mx][mx];
+ll n,m ;
+vector<pair<ll,ll>>s; 
+ll lvlFire[mx][mx],lvlJan[mx][mx];
+ll dx[]={ 0, 0, +1, -1, +1};
+ll dy[]={ +1, -1, 0, 0, +1};
+
+
+
+
+
+void bfsFire(){
+
+    memset(lvlFire, -1, sizeof(lvlFire));
+    queue<pair<ll,ll>>q; 
+    for(auto u:s)
+    {
+        q.push(u);
+        lvlFire[u.first][u.second]=0; 
+
+    }
+    while(!q.empty())
+    {
+        ll x=q.front().first; 
+        ll y=q.front().second;
+        q.pop();
+        for(ll i=0; i<4; i++)
+        {
+            ll x1=x+dx[i];
+            ll y1=y+dy[i];
+            if(x1>=1 && x1<=n && y1>=1 && y1<=m && c[x1][y1]!='#' && lvlFire[x1][y1]==-1)
+            {
+                lvlFire[x1][y1]=lvlFire[x][y]+1;
+                q.push({ x1, y1});
+            }
+        }
+    }
+    
+}
+
+void bfsJan(ll xs, ll ys){
+
+    memset(lvlJan, -1, sizeof(lvlJan));
+    queue<pair<ll,ll>>q; 
+   q.push({xs,ys});
+   lvlJan[xs][ys]=0; 
+
+    while(!q.empty())
+    {
+        ll x=q.front().first; 
+        ll y=q.front().second;
+        q.pop();
+        for(ll i=0; i<4; i++)
+        {
+            ll x1=x+dx[i];
+            ll y1=y+dy[i];
+            if(x1>=1 && x1<=n && y1>=1 && y1<=m && c[x1][y1]!='#' && lvlJan[x1][y1]==-1 && lvlJan[x][y]+1<lvlFire[x1][y1] )
+            {
+                lvlJan[x1][y1]=lvlJan[x][y]+1;
+                q.push({ x1, y1});
+            }
+        }
+    }
+    
+}
+
+int main()
+{
+    optimize();
+    ll t;
+    cin>>t;
+   for(ll tc=1; tc<=t; tc++)
+   {
+     cin>>n>>m; 
+     ll x,y;
+       s.clear();
+     for(ll i=1; i<=n; i++)
+     {
+        for(ll j=1; j<=m; j++)
+        {
+            cin>>c[i][j];
+            if(c[i][j]=='J'){
+                x=i,y=j; 
+            }
+            else if(c[i][j]=='F'){
+                s.pb({i,j});
+            }
+        }
+     }
+     bfsFire();
+     bfsJan(x,y);
+     ll ans=inf; 
+     for(ll i=1; i<=n; i++)
+     {
+        if(lvlJan[i][1]!=-1)ans=min(ans, lvlJan[i][1]);
+     }
+     for(ll i=1; i<=n; i++)
+     {
+        if(lvlJan[i][m]!=-1)ans=min(ans, lvlJan[i][m]);
+     }
+     for(ll i=1; i<=m; i++)
+     {
+        if(lvlJan[1][i]!=-1)ans=min(ans, lvlJan[1][i]);
+     }
+      for(ll i=1; i<=m; i++)
+     {
+        if(lvlJan[n][i]!=-1)ans=min(ans, lvlJan[n][i]);
+     }
+
+     if(ans==inf) cout<<"Case "<<tc<<": IMPOSSIBLE"<<endl;
+     else cout<<"Case "<<tc<<": "<<ans+1<<endl;
+       
+
+     
+     
+        
+     
+
+   }
+}
+/*****************  ALHAMDULILLAH  *****************/
