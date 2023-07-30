@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll   long long
+#define pb   push_back
+#define yes   cout<<"YES"<<endl
+#define no   cout<<"NO"<<endl
+#define all(x) (x).begin(), (x).end()
+#define    gcd(a,b)      __gcd(a,b)
+#define    lcm(a,b)  (a*b)/__gcd(a,b)
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+void solve( ll t){
+
+    for(ll tc=1; tc<=t; tc++)
+    {
+
+    ll n; 
+    cin>>n; 
+    vector<ll>adj[n+2];
+    map<pair<ll,ll>,ll>mp;
+    for(ll i=1; i<=n; i++)
+    {
+        ll u,v,weight; 
+        cin>>u>>v>>weight;
+        mp[{ u, v }]=weight; 
+        adj[u].pb(v);
+        adj[v].pb(u);
+
+    }
+
+    ll Cur_city=1; 
+    ll next_city=adj[1][0];
+    ll temp; 
+    ll ans1=0, ans2=0; 
+    for(ll i=1; i<=n; i++)
+    {
+        if(mp[{Cur_city, next_city}]==0)ans1+=mp[{next_city, Cur_city}];
+        temp=adj[next_city][0];
+        if(Cur_city==temp)temp=adj[next_city][1];
+        Cur_city=next_city; 
+        next_city=temp; 
+    }
+    Cur_city=1; 
+    next_city=adj[1][1];
+    for(ll i=1; i<=n; i++)
+    {
+        if(mp[{Cur_city, next_city}]==0)ans2+=mp[{next_city, Cur_city}];
+        temp=adj[next_city][1];
+        if(Cur_city==temp)temp=adj[next_city][0];
+        Cur_city=next_city; 
+        next_city=temp; 
+    }
+
+    cout << "Case " << tc << ": " << min(ans1, ans2) << "\n";
+    }
+}
+
+int main()
+{
+    optimize();
+    ll t;
+    cin>>t;
+    
+        solve(t);
+   
+}
+/*****************  ALHAMDULILLAH  *****************/
