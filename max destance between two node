@@ -1,0 +1,105 @@
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll   long long
+#define pb   push_back
+#define yes   cout<<"YES"<<endl
+#define no   cout<<"NO"<<endl
+#define all(x) (x).begin(), (x).end()
+#define    gcd(a,b)      __gcd(a,b)
+#define    lcm(a,b)  (a*b)/__gcd(a,b)
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+const ll mx=30000; 
+bool vis[mx];
+ll dist[mx];
+vector<ll>adj[mx];
+vector<ll>weight[mx];
+void clr(ll n)
+{
+    for(ll i=0; i<n; i++)
+    {
+        vis[i]=0; 
+        dist[i]=0; 
+    }
+}
+
+void bfs( ll node, ll n)
+{
+    queue<ll>q; 
+    vis[node]=1; 
+    q.push(node);
+    while(!q.empty())
+    {
+        ll top=q.front();
+        q.pop();
+        for(ll i=0; i<adj[top].size(); i++)
+        {
+           ll x=adj[top][i];
+
+            if(!vis[x])
+            {
+                vis[x]=1; 
+                dist[x]=dist[top]+weight[top][i];
+                q.push(x);
+            }
+        }
+    }
+}
+
+int main()
+{
+    optimize();
+    ll t;
+    cin>>t;
+   for(ll tc=1; tc<=t; tc++)
+    {
+        ll n; 
+        cin>>n; 
+        for(ll i=0; i<mx; i++)
+        {
+            adj[i].clear();weight[i].clear();
+        }
+
+        for(ll i=0; i<n-1; i++){
+            ll u,v,cost;
+            cin>>u>>v>>cost;
+            adj[u].pb(v);
+            adj[v].pb(u);
+            weight[u].pb(cost);
+            weight[v].pb(cost);
+        }
+        ll max_dst=-1, First_node;
+        clr(n);
+        bfs(0, n);
+
+
+       
+       for(ll i=0; i<n; i++)
+       {
+        if(dist[i]>max_dst)
+        {
+            max_dst=dist[i];
+            First_node=i; 
+        }
+       }
+
+       clr(n);
+       ll ans=0; 
+       bfs(First_node,n );
+       for(ll i=0; i<n; i++)
+       {
+        if(dist[i]>ans)ans=dist[i];
+
+       }
+       cout<<"Case "<<tc<<": "<<ans<<endl;
+
+
+
+
+
+
+
+    }
+}
+/*****************  ALHAMDULILLAH  *****************/
