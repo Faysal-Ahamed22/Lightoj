@@ -1,0 +1,68 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll   long long
+#define pb   push_back
+#define yes   cout<<"YES"<<endl
+#define no   cout<<"NO"<<endl
+#define all(x) (x).begin(), (x).end()
+#define    gcd(a,b)      __gcd(a,b)
+#define    lcm(a,b)  (a*b)/__gcd(a,b)
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+const ll mx=123; 
+const ll inf=1e18; 
+ll dist[mx];
+struct info{
+    ll u,v,w; 
+};
+
+vector<info>edge; 
+
+bool bemenFord( ll n)
+{
+   for(ll i=1; i<=n; i++)dist[i]=inf; 
+
+   for(ll i=1; i<=n; i++)
+   {
+      for(auto e:edge)
+      {
+         ll u=e.u; 
+         ll v=e.v; 
+         ll w=e.w; 
+
+         if(dist[u]+w < dist[v]){
+            dist[v]=max( -inf , dist[u]+w);
+            if(i==n)return 1; 
+         }
+      }
+   }
+
+   return 0; 
+}
+
+
+
+int main()
+{
+    optimize();
+    ll t; cin>>t; 
+    for(ll tc=1; tc<=t; tc++)
+    {
+        edge.clear();
+        ll n,m,p; 
+        cin>>n>>m>>p; 
+         for(ll i=1; i<=m; i++)
+         {
+            ll u,v,in,e; 
+            cin>>u>>v>>in>>e; 
+            u++,v++; 
+            ll w=(p*e)-in; 
+            edge.pb({ u, v , w});
+         }
+          if(bemenFord(n)==1)cout<<"Case "<<tc<<": YES\n"; 
+          else cout<<"Case "<<tc<<": NO\n"; 
+    }
+
+    //if(bemenFord(n))cout<<"Case "<<tc<<": YES\n"; 
+   
+}
