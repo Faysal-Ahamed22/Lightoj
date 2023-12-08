@@ -1,0 +1,115 @@
+/******************************************************/
+/******************************************************/
+/**            BISMILLAHIR RAHMANIR RAHIM            **/
+/**         Md.Faysal Ahamed - ER3N YAGER            **/
+/**  Department of Computer Science and Engineering  **/
+/**               Barisal University                 **/
+/**               It's time to Roar.                 **/
+/******************************************************/
+/******************************************************/
+#include<bits/stdc++.h>
+using namespace std;
+#define ll   long long
+#define pb   push_back
+#define yes   cout<<"YES"<<endl
+#define no   cout<<"NO"<<endl
+#define all(x) (x).begin(), (x).end()
+#define    gcd(a,b)      __gcd(a,b)
+#define    lcm(a,b)  (a*b)/__gcd(a,b)
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+vector<pair<ll , pair<ll,ll>>>vp;
+
+ vector<ll> par;
+    vector<ll> sz;
+    
+    ll find_par ( ll u ) {
+        if ( u == par[u] ) return u;
+        return par[u] = find_par ( par[u] );
+    }
+    
+    void Union ( ll u, ll v ) {
+        if ( sz[u] < sz[v] ) swap ( u, v );
+        par[v] = u;
+        sz[u] += sz[v];
+    }
+
+void solve(){
+    ll m; 
+    cin>>m; 
+    par.clear();
+        sz.clear();
+        
+         par.resize( m+1 );
+        sz.resize( m +1 );
+        for(int i=0; i<=m; i++)par[i]=i;
+
+
+    while( 1 )
+    {
+       ll u,v,w; 
+       cin>>u>>v>>w; 
+       if(u==0 && v==0 && w==0)break; 
+       else {
+        vp.pb( { w, { u, v}});
+       }
+    }
+
+     sort(vp.begin(), vp.end());
+        ll ans=0, ans2=0,cnt=0, cnt2=0; 
+        for(auto e:vp)
+        {
+            int u=find_par(e.second.first); 
+            int v=find_par(e.second.second);
+            int w=e.first; 
+            if( u!=v)
+            {
+                Union( u, v);
+                ans+=w; 
+                cnt++; 
+                if(cnt==m)break; 
+            }
+        }
+        reverse( vp.begin(), vp.end());
+         par.clear();
+        sz.clear();
+        
+         par.resize( m+1 );
+        sz.resize( m +1 );
+        for(int i=0; i<=m; i++)par[i]=i;
+          for(auto e:vp)
+        {
+            int u=find_par(e.second.first); 
+            int v=find_par(e.second.second);
+            int w=e.first; 
+            if( u!=v)
+            {
+                Union( u, v);
+                ans2+=w; 
+                cnt2++; 
+                if(cnt2==m)break; 
+            }
+        }
+
+        ll fans=ans+ans2; 
+        if(fans&1)
+        {
+            cout<<fans<<"/2"<<endl;
+        }
+        else cout<<fans/2<<endl;
+       
+
+}
+
+int main()
+{
+    optimize();
+    ll t;
+    cin>>t;
+    for(ll tc=1; tc<=t; tc++)
+    {
+        cout<<"Case "<<tc<<": ";
+        vp.clear();
+        solve();
+    }
+}
+/*****************  ALHAMDULILLAH  *****************/
