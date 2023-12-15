@@ -1,0 +1,86 @@
+/******************************************************/
+/******************************************************/
+/**            BISMILLAHIR RAHMANIR RAHIM            **/
+/**         Md.Faysal Ahamed - ER3N YAGER            **/
+/**  Department of Computer Science and Engineering  **/
+/**               Barisal University                 **/
+/**               It's time to Roar.                 **/
+/******************************************************/
+/******************************************************/
+#include<bits/stdc++.h>
+using namespace std;
+#define ll   long long
+#define pb   push_back
+#define yes   cout<<"YES"<<endl
+#define no   cout<<"NO"<<endl
+#define all(x) (x).begin(), (x).end()
+#define    gcd(a,b)      __gcd(a,b)
+#define    lcm(a,b)  (a*b)/__gcd(a,b)
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+const ll mx=123; 
+string dp[mx][mx];
+bool vis[mx][mx];
+string s1, s2; 
+ll n1,n2; 
+
+string select( string s1, string s2)
+{
+    if(s1.size()==s2.size()){
+        if(s1>s2)return s2; 
+        return s1; 
+    }
+    else {
+        if(s1.size()>s2.size())return s1; 
+        return s2; 
+    }
+}
+
+string rec(ll i, ll j)
+{
+    if(i>=n1 || j>=n2)return "";
+    if(vis[i][j]==1)return dp[i][j];
+    vis[i][j]=1; 
+
+    string ret;
+    if( s1[i] == s2[j]){
+        ret=s1[i]+rec( i+1, j+1);
+
+    }
+    else{
+        string ret1=rec(i+1, j);
+        string ret2=rec(i , j+1);
+        ret=select(ret1, ret2);
+    }
+    return dp[i][j] = ret; 
+}
+
+void solve(){
+    cin>>s1>>s2; 
+    n1=s1.size(); 
+    n2=s2.size();
+
+    for(ll i=0; i<n1; i++){
+        for(ll j=0; j<n2; j++){
+            dp[i][j].clear();
+            vis[i][j]=0; 
+        }
+    }
+
+    string ans=rec( 0, 0 );
+    if(ans.size()==0)cout<<":("<<endl;
+    else cout<<ans<<endl;
+}
+
+int main()
+{
+    optimize();
+    ll t;
+    cin>>t;
+    for(ll tc=1; tc<=t; tc++)
+    {
+        cout<<"Case "<<tc<<": ";
+        solve();
+    }
+}
+/*****************  ALHAMDULILLAH  *****************/
